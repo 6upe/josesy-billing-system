@@ -14,10 +14,10 @@ class Invoice extends Model
         'date',
         'due_date',
         'status',
-        'total_amount',
         'paid_amount',
         'balance',
         'discount',
+        'total_amount',
         'comment',
     ];
 

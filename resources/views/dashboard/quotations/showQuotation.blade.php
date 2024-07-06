@@ -246,12 +246,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Store client data
     var clients = {
         @foreach($data['clients'] as $client)
-        "{{ $client->id }}": {
-            "name": "{{ $client->name }}",
-            "email": "{{ $client->email }}",
-            "phone": "{{ $client->phone_number }}",
-            "address": "{{ $client->physical_address }}"
-        },
+            "{{ $client->id }}": {
+                "name": "{{ $client->name }}",
+                "email": "{{ $client->email }}",
+                "phone": "{{ $client->phone_number }}",
+                "address": "{{ $client->physical_address }}"
+            },
         @endforeach
     };
 
@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         newProductRow.innerHTML = `
             <td class="cell">
                 <select class="form-select mb-2 product-select" name="products[${index}][id]" required>
-                    @foreach($data['products']  as $product)
+                    @foreach($data['products'] as $product)
                         <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
