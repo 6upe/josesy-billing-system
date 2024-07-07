@@ -20,7 +20,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth'], f
     Route::post('/login', 'LoginController@login')->name('login');
     Route::get('/register', 'RegisterController@showRegistrationForm')->name('auth.register');
     Route::post('/register', 'RegisterController@register')->name('auth.register');
-    Route::post('/logout', 'LoginController@logout')->name('auth.logout');
+    Route::get('/logout', 'LoginController@logout')->name('auth.logout');
 });
 
 // routes/web.php
