@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $clients = Client::paginate(8);
-        $data = ['nav_status' => 'clients', 'clients' => $clients];
+        $data = ['nav_status' => 'clients', 'user' => $user, 'clients' => $clients];
         return view('dashboard.clients', compact('data'));
     }
 
@@ -19,7 +21,8 @@ class ClientController extends Controller
 
     public function addClient()
     {
-        $data = ['nav_status' => 'clients'];
+        $user = Auth::user();
+        $data = ['nav_status' => 'clients', 'user' => $user];
         return view('dashboard.clients.addClient', compact('data'));
     }
 
@@ -30,6 +33,11 @@ class ClientController extends Controller
             'email' => 'required|string|email|max:255|unique:clients',
             'phone_number' => 'required|string|max:255',
             'physical_address' => 'required|string|max:255',
+            'contact_person_name' => 'required|string|max:255',
+            'contact_person_phone' => 'required|string|max:255',
+            'contact_person_position' => 'required|string|max:255',
+            'contact_person_email' => 'required|string|max:255',
+
         ]);
 
         Client::create($request->all());
@@ -39,8 +47,10 @@ class ClientController extends Controller
 
     public function editClient($id)
     {
+        $user = Auth::user();
+        
         $client = Client::findOrFail($id);
-        $data = ['nav_status' => 'clients', 'client' => $client];
+        $data = ['nav_status' => 'clients', 'client' => $client,'user' => $user];
         return view('dashboard.clients.editClient', compact('data'));
     }
 

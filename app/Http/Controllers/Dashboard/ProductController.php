@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $products = Product::paginate(8);
-        $data = ['nav_status' => 'products', 'products' => $products];
+        $data = ['nav_status' => 'products','user' => $user, 'products' => $products];
         return view('dashboard.products', compact('data'));
     }
 
     public function addProduct()
     {
-        $data = ['nav_status' => 'products'];
+        $user = Auth::user();
+        $data = ['nav_status' => 'products','user' => $user];
         return view('dashboard.products.addProduct', compact('data'));
     }
 
@@ -42,8 +45,9 @@ class ProductController extends Controller
 
     public function editProduct($id)
     {
+        $user = Auth::user();
         $product = Product::findOrFail($id);
-        $data = ['nav_status' => 'products', 'product' => $product];
+        $data = ['nav_status' => 'products', 'product' => $product,'user' => $user];
         return view('dashboard.products.editProduct', compact('data'));
     }
 

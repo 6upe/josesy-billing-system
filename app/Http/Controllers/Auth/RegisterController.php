@@ -19,12 +19,16 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'position' => 'nullable|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'signature' => 'nullable|string',
+            'stamp' => 'nullable|string',
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'position' => $request->position,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -34,7 +38,7 @@ class RegisterController extends Controller
         if($user){
             return redirect()->route('dashboard.home'); // Change this route to where you want to redirect after registration
         }else{
-            return redirect()->route('auth.login'); // Change this route to where you want to redirect after registration
+            return redirect()->route('auth.login')->withErrors(['Please Check credentials']); // Change this route to where you want to redirect after registration
         }
 
 

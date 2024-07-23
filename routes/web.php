@@ -4,14 +4,16 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    try {
-            // Attempt a simple query
-            DB::select('SELECT 1');
-            $message = "Successfully connected to the database.";
-        } catch (\Exception $e) {
-            $message = "Could not connect to the database. Please check your configuration. Error: " . $e->getMessage();
-        }
-    return view('index', compact('message'));
+    // try {
+    //         // Attempt a simple query
+    //         DB::select('SELECT 1');
+    //         $message = "Successfully connected to the database.";
+    //     } catch (\Exception $e) {
+    //         $message = "Could not connect to the database. Please check your configuration. Error: " . $e->getMessage();
+    //     }
+    // return view('index', compact('message'));
+    
+    return view('auth.login');
 });
 
 
@@ -34,6 +36,7 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'App\Http\Controllers\Dash
     Route::get('/statements', 'StatementController@index')->name('dashboard.statements');
     Route::get('/receipts', 'ReceiptController@index')->name('dashboard.receipts');
     Route::get('/payments', 'PaymentController@index')->name('dashboard.payments');
+    Route::get('/expenses', 'ExpenseController@index')->name('dashboard.expenses');
     Route::get('/reports', 'ReportController@index')->name('dashboard.reports');
 });
 
@@ -43,7 +46,6 @@ Route::group(['prefix' => 'dashboard/products', 'namespace' => 'App\Http\Control
     Route::get('/edit-product/{id}', 'ProductController@editProduct')->name('dashboard.products.editProduct');
     Route::post('/edit-product/{id}', 'ProductController@updateProduct')->name('dashboard.products.updateProduct');
     Route::delete('/delete-product/{id}', 'ProductController@deleteProduct')->name('dashboard.products.deleteProduct');
-
 });
 
 Route::group(['prefix' => 'dashboard/clients', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => 'auth'], function () {
@@ -86,6 +88,17 @@ Route::group(['prefix' => 'dashboard/receipts', 'namespace' => 'App\Http\Control
 
 Route::group(['prefix' => 'dashboard/statements', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => 'auth'], function () {
     Route::get('/request-statement/{statement}', 'StatementController@requestStatement')->name('dashboard.statements.requestStatement');
+});
+
+Route::group(['prefix' => 'dashboard/expenses', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => 'auth'], function () {
+
+    Route::get('/register-expense', 'ExpenseController@registerExpense')->name('dashboard.expenses.registerExpense');
+    Route::post('/register-expense', 'ExpenseController@saveExpense')->name('dashboard.expenses.saveExpense');
+    Route::get('/edit-expense/{expense}', 'ExpenseController@editExpense')->name('dashboard.expenses.editExpense');
+    Route::put('/edit-expense/{expense}', 'ExpenseController@updateExpense')->name('dashboard.expenses.updateExpense');
+    Route::get('/show-expense/{expense}', 'ExpenseController@showExpense')->name('dashboard.expenses.showExpense');
+    Route::delete('/delete-expense/{expense}', 'ExpenseController@deleteExpense')->name('dashboard.expenses.deleteExpense');
+    
 });
 
 

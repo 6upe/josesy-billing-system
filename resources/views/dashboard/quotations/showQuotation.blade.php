@@ -225,10 +225,11 @@
             </table>
 
             <div style="margin-top: 5px;">
-                <p style="margin: 1px; font-size: 4px;">Prepared By: <strong>Sylvester Lunda</strong></p>
+                <p style="margin: 1px; font-size: 4px;"><strong>Comment:</strong> <span id="template-comment"></span></p>
+                <p style="margin: 1px; font-size: 4px;">Prepared By: <strong>{{ $data['user']->name}}</strong></p>
+                <p style="margin: 1px; font-size: 4px;">Position: <strong>{{ $data['user']->position}}</strong></p>
+                <p style="margin: 1px; font-size: 4px;">Email: <strong>{{ $data['user']->email}}</strong></p>
                 <p style="margin: 1px; font-size: 4px;">Signature: <img src="{{ asset('assets/images/ceo-sign.png') }}" width="20px" alt="Signature"> <img  style="margin: 1px;" src="{{ asset('assets/images/josesy-stamp.png') }}" width="30px" alt="Stamp"></p>
-                
-                
             </div>
 
             <div style="margin: 1px;" class="text-center">

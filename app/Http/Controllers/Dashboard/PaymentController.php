@@ -9,22 +9,23 @@ use App\Models\Payment;
 use App\Models\Receipt;
 use App\Models\Statement;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $payments = Payment::all();
-        $data = ['nav_status' => 'payments', 'payments' => $payments];
+        $data = ['nav_status' => 'payments','user' => $user, 'payments' => $payments];
         return view('dashboard.payments', compact('data'));
     }
 
     public function registerPayment()
     {
         $invoices = Invoice::all();
-
-        $data = ['nav_status' => 'payments', 'invoices' => $invoices];
+        $user = Auth::user();
+        $data = ['nav_status' => 'payments', 'invoices' => $invoices,'user' => $user];
 
         return view('dashboard.payments.registerPayment', compact('data'));
     }
@@ -48,7 +49,7 @@ class PaymentController extends Controller
         ]);
 
         $invoice->paid_amount += $request->amount;
-        $invoice->balance = $invoice->total_amount - $invoice->paid_amount;
+        $invoice->balance = $invoice->total_amount - $invoice->paid_amount - $invoice->discount;
         $invoice->save();
 
         Statement::updateOrCreate(

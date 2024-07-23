@@ -8,11 +8,13 @@ use App\Models\Client;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Auth;
 
 class QuotationController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         // Fetch quotations with related client and products, sorted by creation date in descending order
         $quotations = Quotation::with('client', 'products')
             ->orderBy('created_at', 'desc')
@@ -22,7 +24,7 @@ class QuotationController extends Controller
         $products = Product::all();
 
         // Prepare the data array with the fetched data and nav status
-        $data = ['nav_status' => 'quotations', 'quotations' => $quotations, 'products' => $products];
+        $data = ['nav_status' => 'quotations','user' => $user, 'quotations' => $quotations, 'products' => $products];
 
         // Return the view with the prepared data
         return view('dashboard.quotations', compact('data'));
@@ -31,6 +33,7 @@ class QuotationController extends Controller
 
     public function createQuotation()
     {
+        $user = Auth::user();
         $clients = Client::all();
         $products = Product::all();
         $quotations = Quotation::all();
@@ -38,9 +41,11 @@ class QuotationController extends Controller
 
         $data = [
             'nav_status' => 'quotations',
+            'user' => $user,
             'clients' => $clients,
             'products' => $products,
             'quotations' => $quotations,
+
             'lastQuotationId' => $lastQuotation ? $lastQuotation->id : null // Pass the last quotation's ID or null if none exists
         ];
 
@@ -50,6 +55,7 @@ class QuotationController extends Controller
      
     public function saveQuotation(Request $request)
     {
+
         // Log the request data for debugging
         \Log::info('Request data:', $request->all());
 
@@ -109,6 +115,7 @@ class QuotationController extends Controller
 
     public function editQuotation($id)
     {
+        $user = Auth::user();
         $quotation = Quotation::with('products')->findOrFail($id);
         $clients = Client::all();
         $products = Product::all();
@@ -119,7 +126,8 @@ class QuotationController extends Controller
             'clients' => $clients,
             'products' => $products,
             'quotation' => $quotation,
-            'lastQuotationId' => $lastQuotation ? $lastQuotation->id : null // Pass the last quotation's ID or null if none exists
+            'lastQuotationId' => $lastQuotation ? $lastQuotation->id : null, // Pass the last quotation's ID or null if none exists
+            'user' => $user
         ];
         
 
@@ -174,13 +182,15 @@ class QuotationController extends Controller
         $clients = Client::all();
         $products = Product::all();
         $lastQuotation = Quotation::latest()->first(); // Get the latest quotation
+        $user = Auth::user();
 
         $data = [
             'nav_status' => 'quotations',
             'clients' => $clients,
             'products' => $products,
             'quotation' => $quotation,
-            'lastQuotationId' => $lastQuotation ? $lastQuotation->id : null // Pass the last quotation's ID or null if none exists
+            'lastQuotationId' => $lastQuotation ? $lastQuotation->id : null, // Pass the last quotation's ID or null if none exists
+            'user' => $user
         ];
         
 

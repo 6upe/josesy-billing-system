@@ -28,6 +28,22 @@
                                 <label for="physical_address" class="form-label">Client Physical Address</label>
                                 <input type="text" class="form-control" id="physical_address" name="physical_address" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="contact_person_name" class="form-label">Contact Person Name</label>
+                                <input type="text" class="form-control" id="contact_person_name" name="contact_person_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_person_phone" class="form-label">Contact Person Phone Number</label>
+                                <input type="tel" class="form-control" id="contact_person_phone" name="contact_person_phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_person_position" class="form-label">Contact Person Position</label>
+                                <input type="text" class="form-control" id="contact_person_position" name="contact_person_position" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_person_email" class="form-label">Contact Person Email</label>
+                                <input type="text" class="form-control" id="contact_person_email" name="contact_person_email" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Add Client</button>
                         </form>
                     </div><!--//app-card-body-->

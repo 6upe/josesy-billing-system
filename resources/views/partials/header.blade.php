@@ -7,6 +7,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Josesy Billing System">
+    <meta name="author" content="Katongo Bupe">  
 
 	
     
@@ -50,8 +52,9 @@
 			            <div class="app-utility-item app-user-dropdown dropdown">
 				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="{{ asset('assets/images/icon1.png') }}" alt="user profile"></a>
 				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-								<li><a class="dropdown-item" href="/dashboard/account">Account</a></li>
-								<li><a class="dropdown-item" href="/dashboard/settings">Settings</a></li>
+								<li><a class="dropdown-item" href="#">{{$data['user']->name}}</a></li>
+								<li><a class="dropdown-item" href="#">{{$data['user']->position}}</a></li>
+								<li><a class="dropdown-item" href="#">{{$data['user']->email}}</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="/auth/logout">Log Out</a></li>
 							</ul>
@@ -137,9 +140,9 @@
 					        </a><!--//nav-link-->
 					    </li><!--//nav-item-->
 
-						<li class="nav-item">
+						<!-- <li class="nav-item"> -->
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					        <a class="nav-link {{ $data['nav_status'] == 'statements' ? 'active' : '' }}" href="/dashboard/statements">
+					        <!-- <a class="nav-link {{ $data['nav_status'] == 'statements' ? 'active' : '' }}" href="/dashboard/statements">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -149,22 +152,22 @@
   <circle cx="3.5" cy="10.5" r=".5"/>
 </svg>
 						         </span>
-		                         <span class="nav-link-text">Statements</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
+		                         <span class="nav-link-text">Statements</span> -->
+					        <!-- </a>//nav-link -->
+					    <!-- </li>//nav-item -->
 
-						<li class="nav-item">
+						<!-- <li class="nav-item"> -->
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					        <a class="nav-link {{ Request::is('/dashboard/receipts') ? 'active' : '' }}" href="/dashboard/receipts">
+					        <!-- <a class="nav-link {{ Request::is('/dashboard/receipts') ? 'active' : '' }}" href="/dashboard/receipts">
 						        <span class="nav-icon">
 									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-shield-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 										<path fill-rule="evenodd" d="M5.443 1.991a60.17 60.17 0 0 0-2.725.802.454.454 0 0 0-.315.366C1.87 7.056 3.1 9.9 4.567 11.773c.736.94 1.533 1.636 2.197 2.093.333.228.626.394.857.5.116.053.21.089.282.11A.73.73 0 0 0 8 14.5c.007-.001.038-.005.097-.023.072-.022.166-.058.282-.111.23-.106.525-.272.857-.5a10.197 10.197 0 0 0 2.197-2.093C12.9 9.9 14.13 7.056 13.597 3.159a.454.454 0 0 0-.315-.366c-.626-.2-1.682-.526-2.725-.802C9.491 1.71 8.51 1.5 8 1.5c-.51 0-1.49.21-2.557.491zm-.256-.966C6.23.749 7.337.5 8 .5c.662 0 1.77.249 2.813.525a61.09 61.09 0 0 1 2.772.815c.528.168.926.623 1.003 1.184.573 4.197-.756 7.307-2.367 9.365a11.191 11.191 0 0 1-2.418 2.3 6.942 6.942 0 0 1-1.007.586c-.27.124-.558.225-.796.225s-.526-.101-.796-.225a6.908 6.908 0 0 1-1.007-.586 11.192 11.192 0 0 1-2.417-2.3C2.167 10.331.839 7.221 1.412 3.024A1.454 1.454 0 0 1 2.415 1.84a61.11 61.11 0 0 1 2.772-.815z"/>
 										<path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
 									  </svg>
 						         </span>
-		                         <span class="nav-link-text">Receipts</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
+		                         <span class="nav-link-text">Receipts</span> -->
+					        <!-- </a>//nav-link -->
+					    <!-- </li>//nav-item -->
 
 						<li class="nav-item">
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
@@ -179,17 +182,30 @@
 					        </a><!--//nav-link-->
 					    </li><!--//nav-item-->
 
+						<li class="nav-item">
+					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+					        <a class="nav-link {{ $data['nav_status'] == 'expenses' ? 'active' : '' }}" href="/dashboard/expenses">
+						        <span class="nav-icon">
+						        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+									<path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+									<path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+								</svg>
+						         </span>
+		                         <span class="nav-link-text">Expenses</span>
+					        </a>
+					    </li>
+
 					    <li class="nav-item">
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
 					        <a class="nav-link {{ $data['nav_status'] == 'reports' ? 'active' : '' }}" href="/dashboard/reports">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-	  <path fill-rule="evenodd" d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
-	</svg>
+								<path fill-rule="evenodd" d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+								</svg>
 						         </span>
 		                         <span class="nav-link-text">Reports</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
+					        </a>
+					    </li>
 					    
 					    			    
 				    </ul><!--//app-menu-->

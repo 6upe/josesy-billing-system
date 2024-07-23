@@ -19,5 +19,9 @@ class Client extends Model
         'email',
         'phone_number',
         'physical_address',
+        'contact_person_name',    // Add this line
+        'contact_person_phone',   // Add this line
+        'contact_person_position', // Add this line
+        'contact_person_email',   // Add this line
     ];
 }

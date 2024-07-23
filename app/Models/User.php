@@ -19,6 +19,9 @@ class User extends Authenticatable implements AuthenticatableContract
         'name',
         'email',
         'password',
+        'position',      // Added field
+        'signature',     // Added field
+        'stamp',         // Added field
     ];
 
     /**

@@ -8,15 +8,16 @@ use App\Models\Invoice;
 use App\Models\Quotation;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
     public function index()
     {
-        
+        $user = Auth::user();
         $invoices = Invoice::all();
 
-        $data = ['nav_status' => 'invoices', 'invoices' => $invoices];
+        $data = ['nav_status' => 'invoices', 'user' => $user,'invoices' => $invoices];
         return view('dashboard.invoices', compact('data'));
     }
 
@@ -25,13 +26,13 @@ class InvoiceController extends Controller
     {
         $clients = Client::all();
         $quotations = Quotation::with('products')->where('status', 'accepted')->get();
-
+        $user = Auth::user();
 
         if ($quotations->isEmpty()) {
             return back()->withErrors(['No accepted quotations available.']);
         }
 
-        $data = ['nav_status' => 'invoices', 'quotations' => $quotations, 'clients' => $clients];
+        $data = ['nav_status' => 'invoices', 'quotations' => $quotations, 'clients' => $clients,'user' => $user];
 
         return view('dashboard.invoices.createInvoice', compact('data'));
     }
@@ -58,6 +59,7 @@ class InvoiceController extends Controller
 
     public function editInvoice($id)
     {
+        $user = Auth::user();
         $invoice = Invoice::findOrFail($id);
         $quotations = Quotation::where('status', 'accepted')->get();
         $clients = Client::all(); // Assuming you have a Client model
@@ -66,7 +68,8 @@ class InvoiceController extends Controller
             'nav_status' => 'invoices',
             'invoice' => $invoice,
             'quotations' => $quotations,
-            'clients' => $clients
+            'clients' => $clients,
+            'user' => $user
         ];
 
         return view('dashboard.invoices.editInvoice', compact('data'));
@@ -103,10 +106,12 @@ class InvoiceController extends Controller
 
     public function showInvoice($invoice)
     {
+        $user = Auth::user();
         $invoice = Invoice::findOrFail($invoice);
         $data = [
             'nav_status' => 'invoices',
             'invoice' => $invoice,
+            'user' => $user
         ];
 
         return view('dashboard.invoices.showInvoice', compact('data'));

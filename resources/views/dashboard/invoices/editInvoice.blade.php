@@ -122,10 +122,6 @@
         let discount = parseFloat(document.getElementById('discount').value) || 0;
         let balance = totalAmount - paidAmount - discount;
         document.getElementById('balance').value = balance.toFixed(2);
-
-        if(balance == 0){
-            document.getElementById('status').value ='paid';
-        }
     }
 </script>
 @endsection
