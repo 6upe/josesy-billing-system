@@ -13,6 +13,28 @@
                 <div class="app-card app-card-settings shadow-sm p-4">
                     <div class="app-card-body">
 
+                    <div class="col-auto">
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
+
                         <a href="{{ route('dashboard.expenses.registerExpense') }}" class="btn btn-primary">Register
                             Expense</a>
                         <table class="table table-striped mt-3">

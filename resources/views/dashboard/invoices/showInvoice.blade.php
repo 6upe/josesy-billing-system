@@ -28,6 +28,7 @@
                 <p><strong>Invoice ID:</strong>JTSL-QTN-2024-{{ $data['invoice']->id }}</p>
                 <p><strong>Date:</strong> {{ $data['invoice']->date }}</p>
                 <p><strong>Due Date:</strong> {{ $data['invoice']->due_date }}</p>
+                <!-- <p><strong>Due in :</strong> <span id="template-due-days"></span> Days</p> -->
                 <p><strong>Status:</strong> {{ ucfirst($data['invoice']->status) }}</p>
                 <p><strong>Total Amount:</strong> {{ $data['invoice']->total_amount }}</p>
                 <p><strong>Paid Amount:</strong> {{ $data['invoice']->paid_amount }}</p>
@@ -98,6 +99,7 @@
                 <p style="margin: -1px; font-size: 3px;"><strong>Date:</strong> <span id="template-date"></span></p>
                 <p style="margin: -1px; font-size: 3px;"><strong>Due Date:</strong> <span id="template-due-date"></span></p>
                 <p style="margin: -1px; font-size: 3px;"><strong>Status:</strong> <span id="template-status"></span></p>
+
             </div>
             <div style="margin: -1px;">
                 <p  style="margin: -1px; font-size: 3px;"><strong>Name:</strong> <span id="template-client-name"></span></p>
@@ -148,9 +150,10 @@
 
         <div style="margin-top: 5px;">
             <p style="margin: 1px; font-size: 4px;"><strong>Comment:</strong> <span id="template-comment"></span></p>
+            <!-- <p style="margin: 1px; font-size: 4px;"><strong>Invoice Due: </strong> <span id="template-due-days"></span></p> -->
             <p style="margin: 1px; font-size: 4px;">Prepared By: <strong>{{ $data['user']->name}}</strong></p>
             <p style="margin: 1px; font-size: 4px;">Position: <strong>{{ $data['user']->position}}</strong></p>
-            <p style="margin: 1px; font-size: 4px;">Email: <strong>{{ $data['user']->email}}</strong></p>
+            <p style="margin: 1px; font-size: 4px;">Email: <strong>info@josesyltd.com</strong></p>
             <p style="margin: 1px; font-size: 4px;">Signature: <img src="{{ asset('assets/images/ceo-sign.png') }}" width="20px" alt="Signature"> <img  style="margin: 1px;" src="{{ asset('assets/images/josesy-stamp.png') }}" width="30px" alt="Stamp"></p>
         </div>
 
@@ -164,6 +167,54 @@
 </div>
 
 <script>
+    // function calculateDaysDifference(dateField, dueDateField) {
+    //     const daysDifferenceField = document.getElementById('template-due-days');
+
+    //     const date = new Date(dateField.value);
+    //     const dueDate = new Date(dueDateField.value);
+
+    //     if (date && dueDate) {
+    //         const differenceInTime = dueDate.getTime() - date.getTime();
+    //         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    //         console.log('differenceInDays: ', differenceInDays);
+    //         daysDifferenceField.value = differenceInDays;
+    //     } else {
+    //         daysDifferenceField.value = '';
+    //     }
+    // }
+
+    function calculateDaysDifference(dateValue, dueDateValue) {
+        const daysDifferenceField = document.getElementById('template-due-days');
+
+        
+
+        // Check if both dates are provided
+        if (dateValue && dueDateValue) {
+            // Create Date objects
+            const date = new Date(dateValue);
+            const dueDate = new Date(dueDateValue);
+
+            // Check if the Date objects are valid
+            if (!isNaN(date.getTime()) && !isNaN(dueDate.getTime())) {
+                // Calculate the difference in time
+                const differenceInTime = dueDate.getTime() - date.getTime();
+                // Convert the time difference to days
+                const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+                console.log('differenceInDays: ', differenceInDays);
+                // Set the value of the days difference field
+                daysDifferenceField.innerText = Math.round(differenceInDays);
+            } else {
+                console.error('Invalid date(s) provided');
+                daysDifferenceField.value = '';
+            }
+        } else {
+            daysDifferenceField.value = '';
+        }
+    }
+
+
+    calculateDaysDifference({{ $data['invoice']->date }}, {{ $data['invoice']->due_date }});
+
 function updateTemplate() {
     document.getElementById('template-invoice-id').innerText = '{{ $data['invoice']->id }}';
     document.getElementById('template-date').innerText = '{{ $data['invoice']->date }}';
@@ -174,6 +225,8 @@ function updateTemplate() {
     document.getElementById('template-client-phone').innerText = '{{ $data['invoice']->quotation->client->phone_number }}';
     document.getElementById('template-client-address').innerText = '{{ $data['invoice']->quotation->client->physical_address }}';
     
+    
+
     const products = @json($data['invoice']->quotation->products);
     const productsTableBody = document.querySelector('#template-products tbody');
     productsTableBody.innerHTML = '';
@@ -194,6 +247,9 @@ function updateTemplate() {
     document.getElementById('template-discount').innerText = '{{ $data['invoice']->discount }}';
     document.getElementById('template-comment').innerText = '{{ $data['invoice']->comment }}';
 }
+
+
+
 
 async function generatePdf() {
     updateTemplate();

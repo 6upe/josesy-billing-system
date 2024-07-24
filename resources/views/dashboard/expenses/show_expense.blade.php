@@ -18,6 +18,9 @@
     <div>
         <strong>Products Purchased:</strong> {{ $data['expense']->products_purchased }}
     </div>
+    <a href="{{ asset('storage/' . $data['expense']->supporting_documents) }}" class="btn btn-outline-secondary mb-3" target="_blank">View Document</a>
+    <br>
+
     <!-- Add more fields as necessary -->
     <a href="{{ route('dashboard.expenses') }}" class="btn btn-primary mt-3">Back to List</a>
 </div>

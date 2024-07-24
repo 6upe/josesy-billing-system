@@ -42,6 +42,35 @@
             <label for="due_date" class="form-label">Due Date</label>
             <input type="date" id="due_date" name="due_date" class="form-control" required>
         </div>
+
+        <div class="mb-3">
+            <label for="days_difference" class="form-label">Number of Days</label>
+            <input type="text" id="days_difference" name="days_difference" class="form-control" readonly>
+        </div>
+
+        <script>
+            document.getElementById('date').addEventListener('change', calculateDaysDifference);
+            document.getElementById('due_date').addEventListener('change', calculateDaysDifference);
+
+            function calculateDaysDifference() {
+                const dateField = document.getElementById('date');
+                const dueDateField = document.getElementById('due_date');
+                const daysDifferenceField = document.getElementById('days_difference');
+
+                const date = new Date(dateField.value);
+                const dueDate = new Date(dueDateField.value);
+
+                if (date && dueDate) {
+                    const differenceInTime = dueDate.getTime() - date.getTime();
+                    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+                    daysDifferenceField.value = differenceInDays;
+                } else {
+                    daysDifferenceField.value = '';
+                }
+            }
+        </script>
+
+
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select id="status" name="status" class="form-select" required>

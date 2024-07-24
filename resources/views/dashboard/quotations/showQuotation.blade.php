@@ -95,7 +95,8 @@
                                                             @foreach($data['products'] as $productOption)
                                                                 <option value="{{ $productOption->id }}" data-price="{{ $productOption->price }}" 
                                                                     {{ $productOption->id == $product->id ? 'selected' : '' }}>
-                                                                    {{ $productOption->name }}
+                                                                    {{ $productOption->name }} 
+                                                                    {{ $productOption->description }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -228,7 +229,7 @@
                 <p style="margin: 1px; font-size: 4px;"><strong>Comment:</strong> <span id="template-comment"></span></p>
                 <p style="margin: 1px; font-size: 4px;">Prepared By: <strong>{{ $data['user']->name}}</strong></p>
                 <p style="margin: 1px; font-size: 4px;">Position: <strong>{{ $data['user']->position}}</strong></p>
-                <p style="margin: 1px; font-size: 4px;">Email: <strong>{{ $data['user']->email}}</strong></p>
+                <p style="margin: 1px; font-size: 4px;">Email: <strong>info@josesyltd.com</strong></p>
                 <p style="margin: 1px; font-size: 4px;">Signature: <img src="{{ asset('assets/images/ceo-sign.png') }}" width="20px" alt="Signature"> <img  style="margin: 1px;" src="{{ asset('assets/images/josesy-stamp.png') }}" width="30px" alt="Stamp"></p>
             </div>
 
@@ -278,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         var itemsBody = document.getElementById('template-items');
+
         itemsBody.innerHTML = '';
         document.querySelectorAll('#product-table-body tr').forEach(function (row) {
             var description = row.querySelector('.product-select option:checked').text;

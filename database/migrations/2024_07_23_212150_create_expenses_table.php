@@ -18,12 +18,9 @@ return new class extends Migration
             $table->text('supporting_documents')->nullable();
             $table->text('products_purchased');
             $table->decimal('amount', 15, 2);
-            $table->decimal('unit_price', 15, 2);
-            $table->integer('quantity');
             $table->string('expense_type');
             $table->date('date_of_expense')->default(DB::raw('CURRENT_DATE'));
             $table->text('description')->nullable();
-            $table->string('approval_status')->default('pending');
             $table->timestamps();
         });
     }
