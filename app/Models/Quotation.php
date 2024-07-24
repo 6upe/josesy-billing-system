@@ -14,6 +14,7 @@ class Quotation extends Model
         'tax_amount',
         'total',
         'grand_total',
+        'created_by',
     ];
 
     public function client()

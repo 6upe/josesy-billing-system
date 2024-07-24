@@ -85,6 +85,8 @@ class QuotationController extends Controller
             'grand_total'
         ]);
 
+        $quotationData['created_by'] = Auth::id(); // Add the logged-in user's ID
+
         try {
             // Create the quotation
             $quotation = Quotation::create($quotationData);
@@ -120,6 +122,7 @@ class QuotationController extends Controller
         $clients = Client::all();
         $products = Product::all();
         $lastQuotation = Quotation::latest()->first(); // Get the latest quotation
+        
 
         $data = [
             'nav_status' => 'quotations',
@@ -131,7 +134,16 @@ class QuotationController extends Controller
         ];
         
 
-        return view('dashboard.quotations.editQuotation', compact('data'));
+        
+
+
+        if($quotation['created_by'] == $user['id'] || $user['position'] == 'Chief Executive Officer'){
+            return view('dashboard.quotations.editQuotation', compact('data'));
+        }else{
+            return redirect()->route('dashboard.quotations')->with('error', 'Permission edit denied!.');
+        }
+
+
     }
 
 
@@ -156,6 +168,7 @@ class QuotationController extends Controller
         $quotation->status = $request->status;
         $quotation->tax_type = $request->tax_type;
         $quotation->tax_amount = $request->tax_amount;
+        $quotation->created_by = Auth::id();
         $quotation->save();
 
         $quotation->products()->detach();
@@ -172,8 +185,19 @@ class QuotationController extends Controller
 
     public function deleteQuotation(Quotation $quotation)
     {
-        $quotation->delete();
-        return redirect()->route('dashboard.quotations')->with('success', 'Quotation deleted successfully.');
+       
+
+        $user = Auth::user();
+
+        if($user['position'] == 'Chief Executive Officer'){
+
+            $quotation->delete();
+            return redirect()->route('dashboard.quotations')->with('success', 'Quotation deleted successfully.');
+
+        }else{
+
+            return redirect()->route('dashboard.quotations')->with('error', 'Permission DELETE denied!.');
+        }
     }
 
     
@@ -193,7 +217,6 @@ class QuotationController extends Controller
             'user' => $user
         ];
         
-
         return view('dashboard.quotations.showQuotation', compact('data'));
     }
 

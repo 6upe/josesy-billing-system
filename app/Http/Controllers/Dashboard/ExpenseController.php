@@ -24,7 +24,6 @@ class ExpenseController extends Controller
     {
         $user = Auth::user();
         $data = ['nav_status' => 'expenses','user' => $user];
-
         return view('dashboard.expenses.register_expense', compact('data'));
     }
 
@@ -73,9 +72,16 @@ class ExpenseController extends Controller
     public function editExpense(Expense $expense)
     {
         $user = Auth::user();
+
         $data = ['nav_status' => 'expenses','user' => $user, 'expense' => $expense];
 
-        return view('dashboard.expenses.edit_expense', compact('data'));
+    
+        if($expense['created_by'] == $user['id'] || $user['position'] == 'Chief Executive Officer'){
+            return view('dashboard.expenses.edit_expense', compact('data'));
+        }else{
+            return redirect()->route('dashboard.expenses')->with('error', 'Permission edit denied!.');
+        }
+
     }
 
     public function updateExpense(Request $request, $id)
@@ -124,8 +130,21 @@ class ExpenseController extends Controller
 
     public function deleteExpense(Expense $expense)
     {
-        $expense->delete();
-        return redirect()->route('dashboard.expenses');
+       
+        
+        $user = Auth::user();
+
+        if($user['position'] == 'Chief Executive Officer'){
+
+            $expense->delete();
+            return redirect()->route('dashboard.expenses')->with('success', 'Expense Withdrawn! Successfully');
+
+        }else{
+
+            return redirect()->route('dashboard.expenses')->with('error', 'Permission DELETE denied!.');
+        }
+
+
     }
 
 }

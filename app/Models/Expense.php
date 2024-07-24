@@ -18,6 +18,7 @@ class Expense extends Model
         'expense_type',
         'date_of_expense',
         'description',
+        'created_by',
     ];
 
     // Casting attributes to appropriate types

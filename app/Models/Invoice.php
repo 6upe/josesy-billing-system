@@ -19,6 +19,7 @@ class Invoice extends Model
         'discount',
         'total_amount',
         'comment',
+        'created_by',
     ];
 
     public function quotation()

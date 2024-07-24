@@ -30,7 +30,7 @@
             <select id="quotation_id" name="quotation_id" class="form-select" required>
             <option value="0">Select Quotation</option>
                 @foreach($data['quotations'] as $quotation)
-                    <option value="{{ $quotation->id }}">JTSL-QTN-2024-{{ $quotation->id }}</option>
+                    <option value="{{ $quotation->id }}">JTSL-QTN-2024-{{ $quotation->id }} - {{ $quotation->client->name }} - </option>
                 @endforeach
             </select>
         </div>

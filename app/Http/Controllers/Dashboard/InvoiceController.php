@@ -26,6 +26,7 @@ class InvoiceController extends Controller
     {
         $clients = Client::all();
         $quotations = Quotation::with('products')->where('status', 'accepted')->get();
+        
         $user = Auth::user();
 
         if ($quotations->isEmpty()) {
@@ -52,7 +53,12 @@ class InvoiceController extends Controller
             'comment' => 'nullable|string',
         ]);
 
-        $invoices = Invoice::create($request->all());
+         // Prepare invoice data and add created_by
+        $invoiceData = $request->all();
+        $invoiceData['created_by'] = Auth::id();
+
+        // Create the invoice with the prepared data
+        $invoice = Invoice::create($invoiceData);
 
         return redirect()->route('dashboard.invoices')->with('success', 'Invoice created successfully.');;
     }
@@ -72,35 +78,57 @@ class InvoiceController extends Controller
             'user' => $user
         ];
 
-        return view('dashboard.invoices.editInvoice', compact('data'));
+
+        if($invoice['created_by'] == $user['id'] || $user['position'] == 'Chief Executive Officer'){
+            return view('dashboard.invoices.editInvoice', compact('data'));
+        }else{
+            return redirect()->route('dashboard.invoices')->with('error', 'Permission edit denied!.');
+        }
+
     }
 
     public function updateInvoice(Request $request, $id)
-    {
-        $request->validate([
-            'quotation_id' => 'required|exists:quotations,id',
-            'date' => 'required|date',
-            'due_date' => 'required|date|after_or_equal:date',
-            'status' => 'required|string',
-            'total_amount' => 'required|numeric',
-            'paid_amount' => 'nullable|numeric',
-            'balance' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'comment' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'quotation_id' => 'required|exists:quotations,id',
+        'date' => 'required|date',
+        'due_date' => 'required|date|after_or_equal:date',
+        'status' => 'required|string',
+        'total_amount' => 'required|numeric',
+        'paid_amount' => 'nullable|numeric',
+        'balance' => 'required|numeric',
+        'discount' => 'nullable|numeric',
+        'comment' => 'nullable|string',
+    ]);
 
-        $invoice = Invoice::findOrFail($id);
-        $invoice->update($request->all());
+    $invoice = Invoice::findOrFail($id);
+    
+    // Exclude the 'created_by' field from the request data
+    $updateData = $request->except('created_by');
 
-        return redirect()->route('dashboard.invoices')->with('success', 'Invoice updated successfully');
-    }
+    $invoice->update($updateData);
+
+    return redirect()->route('dashboard.invoices')->with('success', 'Invoice updated successfully');
+}
+
 
 
 
     public function deleteInvoice(Invoice $invoice)
     {
-        $invoice->delete();
-        return redirect()->route('dashboard.invoices');
+       
+        $user = Auth::user();
+
+        if($user['position'] == 'Chief Executive Officer'){
+
+            $invoice->delete();
+            return redirect()->route('dashboard.invoices')->with('success', 'Expense Withdrawn! Successfully');
+
+        }else{
+
+            return redirect()->route('dashboard.invoices')->with('error', 'Permission DELETE denied!.');
+        }
+
     }
 
 
