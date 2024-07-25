@@ -189,7 +189,7 @@ class QuotationController extends Controller
 
         $user = Auth::user();
 
-        if($user['position'] == 'Chief Executive Officer'){
+        if($user['position'] == 'Chief Executive Officer'){  
 
             $quotation->delete();
             return redirect()->route('dashboard.quotations')->with('success', 'Quotation deleted successfully.');
@@ -197,6 +197,7 @@ class QuotationController extends Controller
         }else{
 
             return redirect()->route('dashboard.quotations')->with('error', 'Permission DELETE denied!.');
+ 
         }
     }
 
