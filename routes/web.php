@@ -102,3 +102,11 @@ Route::group(['prefix' => 'dashboard/expenses', 'namespace' => 'App\Http\Control
 });
 
 
+Route::group(['prefix' => 'dashboard/reports', 'namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('/reports/monthly', 'ReportController@monthlyReport')->name('dashboard.reports.monthly');
+    Route::get('/reports/annual', 'ReportController@annualReport')->name('dashboard.reports.annual');
+    Route::get('/reports/weekly', 'ReportController@weeklyReport')->name('dashboard.reports.weekly');
+    Route::post('/reports/custom', 'ReportController@customReport')->name('dashboard.reports.custom');
+    Route::post('/reports/export', 'ReportController@exportReport')->name('dashboard.reports.export');
+});
+

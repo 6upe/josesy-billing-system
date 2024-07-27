@@ -6,7 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.9",
+        "barryvdh/laravel-dompdf": "^1.0",
+        "laravel/framework": "^9.0",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {

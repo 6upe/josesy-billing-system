@@ -20,4 +20,9 @@ class Payment extends Model
     {
         return $this->hasOne(Receipt::class);
     }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

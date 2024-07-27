@@ -43,4 +43,9 @@ class User extends Authenticatable implements AuthenticatableContract
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'created_by');
+    }
 }

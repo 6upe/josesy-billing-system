@@ -25,4 +25,9 @@ class Expense extends Model
     protected $casts = [
         'amount' => 'decimal:2',
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

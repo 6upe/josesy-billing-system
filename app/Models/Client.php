@@ -24,4 +24,8 @@ class Client extends Model
         'contact_person_position', // Add this line
         'contact_person_email',   // Add this line
     ];
+
+
+
+
 }

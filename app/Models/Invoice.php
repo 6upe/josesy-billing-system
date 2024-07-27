@@ -27,8 +27,15 @@ class Invoice extends Model
         return $this->belongsTo(Quotation::class);
     }
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
     public function products()
     {
         return $this->quotation->products();
     }
+
+    
 }
